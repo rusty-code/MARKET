@@ -10,12 +10,14 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
+    reports/ReportQuery.cpp \
     widget.cpp \
     menu_bar/CustomButton.cpp\
     menu_bar/MenuBar.h\
     menu_bar/TopBar.h
 
 HEADERS += \
+    reports/ReportQuery.h \
     widget.h\
     menu_bar/CustomButton.h\
     menu_bar/MenuBar.h\
