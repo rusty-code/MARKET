@@ -2,16 +2,36 @@
 #define WIDGET_H
 
 #include "includes.h"
+#include "menu_bar/MenuBar.h"
+#include "menu_bar/TopBar.h"
+#include "reports/ReportQuery.h"
+
 
 class Widget : public QWidget
 {
     Q_OBJECT
 
 private:
-    QTableView* current_model;
+    QTableView* p_current_model;
+    QMap<EMITS_BTN_SIGNALS, QString>* p_btn_tablename_links;
+    ReportQuery* p_report1;
+    ReportQuery* p_report2;
+
+    MenuBar* p_tableSwapMenu; // left menu
+    MenuBar* p_reportSwapMenu; // right menu
+    TopBar* p_topBar; // top menu
+
+    QPalette* p_backColor; // for fill backgounds of widgets
 
 public:
-    Widget(QWidget *parent = nullptr);
+    Widget
+    (
+        // QString,
+        QMap<EMITS_BTN_SIGNALS, QString>*,
+        QString&, // query for report1
+        QString&, // query for report2
+        QWidget *parent = nullptr
+    );
     ~Widget();
 
 public slots:
