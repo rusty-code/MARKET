@@ -19,11 +19,17 @@ Widget::Widget
 
     this->resize(1000, 1100);
 
-    // setup left menu
+    // setup menues
+        // setup left menu
+    int menu_wdth = 80;
+    int menu_hght = 650;
+    int menu_pos_x = 10;
+    int menu_pos_y = 20;
+
     this->p_tableSwapMenu = new MenuBar
     (
-        new QSize(80, 650),
-        new QSize(10, 20),
+        new QSize(menu_wdth, menu_hght),
+        new QSize(menu_pos_x, menu_pos_y),
         true,
         this
     );
@@ -34,11 +40,11 @@ Widget::Widget
     }
     this->p_tableSwapMenu->show();
 
-    // setup right menu
+        // setup right menu
     this->p_reportSwapMenu = new MenuBar
     (
-        new QSize(80, 650),
-        new QSize(this->width()-10, 20),
+        new QSize(menu_wdth, menu_hght),
+        new QSize(this->width()-menu_pos_x, menu_pos_y),
         true,
         this
     );
@@ -49,24 +55,38 @@ Widget::Widget
     this->p_reportSwapMenu->show();
 
     // setup top bar
-    int topbar_wdth = this->width()-
-            this->p_tableSwapMenu->size().width() -
-                      this->p_reportSwapMenu->size().width();
-
+        /*
+        int topbar_wdth = this->width()-
+                this->p_tableSwapMenu->size().width() -
+                          this->p_reportSwapMenu->size().width();
+        */
+    int topbar_wdth = this->width()-2*menu_wdth;
+    int topbar_hght = 60;
     this->p_topBar = new TopBar
     (
         new QSize(
-            this->p_tableSwapMenu->size().width(),
-            this->p_tableSwapMenu->pos().y()
+            // this->p_tableSwapMenu->size().width(),
+            // this->p_tableSwapMenu->pos().y()
+            menu_wdth,
+            menu_pos_y
         ),
         new QSize(
             topbar_wdth,
-            60
+            topbar_hght
         ),
         this
     );
     this->p_topBar->show();
 
+    // setup table view area
+    this->p_current_model = new QTableView;
+    this->p_current_model->setGeometry
+    (
+        menu_wdth,
+        menu_pos_y,
+        topbar_wdth,
+        this->height()
+    );
 }
 
 Widget::~Widget()
