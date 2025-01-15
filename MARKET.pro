@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
+    menu_bar/InputArea.cpp \
+    push_data_db/PushData.cpp \
     reports/ReportQuery.cpp \
     widget.cpp \
     menu_bar/CustomButton.cpp\
@@ -17,6 +19,8 @@ SOURCES += \
     menu_bar/TopBar.cpp
 
 HEADERS += \
+    menu_bar/InputArea.h \
+    push_data_db/PushData.h \
     reports/ReportQuery.h \
     widget.h\
     menu_bar/CustomButton.h\

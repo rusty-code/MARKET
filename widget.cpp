@@ -17,12 +17,12 @@ Widget::Widget
     this->p_backColor->setColor(this->backgroundRole(), Qt::white);
     this->setPalette(*(this->p_backColor));
 
-    this->resize(1000, 1100);
+    this->resize(1000, 800);
 
     // setup menues
         // setup left menu
     int menu_wdth = 80;
-    int menu_hght = 650;
+    int menu_hght = 250;
     int menu_pos_x = 10;
     int menu_pos_y = 20;
 
@@ -86,6 +86,22 @@ Widget::Widget
         menu_pos_y,
         topbar_wdth,
         this->height()
+    );
+
+    connect // table swap
+    (
+        this->p_tableSwapMenu,
+        &MenuBar::sig_transmission,
+        this,
+        &Widget::slot_table_swapper
+    );
+
+    connect // table swap
+    (
+        this->p_reportSwapMenu,
+        &MenuBar::sig_transmission,
+        this,
+        &Widget::slot_show_report
     );
 }
 

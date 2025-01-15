@@ -2,25 +2,7 @@
 #define TOPBAR_H
 
 #include "../includes.h"
-
-
-class InputArea : public QLabel
-{
-Q_OBJECT
-private:
-    QLineEdit* p_ledit;
-
-public:
-    InputArea(QString);
-    ~InputArea();
-    QLineEdit* get_edit_area();
-
-public slots:
-    void slot_enter_pressed();
-
-signals:
-    void sig_get_text(const QString&);
-};
+#include "InputArea.h"
 
 
 class TopBar : public QWidget
@@ -49,14 +31,11 @@ public:
 
 public slots:
     void slot_set_tname(QString&);
-    // void slot_filter_transmitter(const QString&);
-    // void slot_delete_rownum_transmitter(const QString&);
+
     void slot_add_new_row(void);
     void slot_delete_selected_row(void);
 
 signals:
-    // void sig_filter_data_transmitter(const QString&);
-    // void sig_delete_rownum_transmitter(const QString&);
     void sig_add_new_row();
     void sig_delete_selected_row();
 };
