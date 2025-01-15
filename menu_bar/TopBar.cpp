@@ -45,23 +45,16 @@ TopBar::TopBar
     this->p_curr_tname->setPalette(QPalette(Qt::black, Qt::white));
     this->p_curr_tname->setTextFormat(Qt::MarkdownText);
 
-    // setup other ui
-    this->p_filter = new InputArea("Enter filter");
-    this->p_delete_line = new InputArea("Enter delete filter");
+    // setup buttons
     this->p_add_new_row = new QPushButton("Add row");
+    this->p_delete_row = new QPushButton("Delete selected");
 
     // setup layout
     this->p_layout = new QHBoxLayout;
 
     this->p_layout->addWidget(this->p_curr_tname);
-
-    this->p_layout->addWidget(this->p_filter);
-    this->p_layout->addWidget(this->p_filter->get_edit_area());
-
-    this->p_layout->addWidget(this->p_delete_line);
-    this->p_layout->addWidget(this->p_delete_line->get_edit_area());
-
     this->p_layout->addWidget(this->p_add_new_row);
+    this->p_layout->addWidget(this->p_delete_row);
 
     this->setLayout(this->p_layout);
 
@@ -74,28 +67,20 @@ TopBar::TopBar
         _size->height()
     );
 
-    connect // filter
-    (
-        this->p_filter,
-        &InputArea::sig_get_text,
-        this,
-        &TopBar::slot_filter_transmitter
-    );
-
-    connect
-    (
-        this->p_delete_line,
-        &InputArea::sig_get_text,
-        this,
-        &TopBar::slot_delete_rownum_transmitter
-    );
-
-    connect
+    connect // add row button
     (
         this->p_add_new_row,
         &QPushButton::clicked,
         this,
         &TopBar::slot_add_new_row
+    );
+
+    connect
+    (
+        this->p_delete_row,
+        &QPushButton::clicked,
+        this,
+        &TopBar::slot_delete_selected_row
     );
 }
 
@@ -130,17 +115,13 @@ void TopBar::slot_set_tname(QString& _tname)
     this->p_curr_tname->setText("***"+mark_name.toUpper()+"***");
 }
 
-void TopBar::slot_filter_transmitter(const QString& _filter)
-{
-    emit this->sig_filter_data_transmitter(_filter);
-}
-
-void TopBar::slot_delete_rownum_transmitter(const QString& _rownum)
-{
-    emit this->sig_delete_rownum_transmitter(_rownum);
-}
 
 void TopBar::slot_add_new_row()
 {
     emit this->sig_add_new_row();
+}
+
+void TopBar::slot_delete_selected_row()
+{
+    emit this->sig_delete_selected_row();
 }

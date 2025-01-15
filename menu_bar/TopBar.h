@@ -30,8 +30,9 @@ private:
     QHBoxLayout* p_layout;
 
     QLabel* p_curr_tname;
-    InputArea* p_filter;
-    InputArea* p_delete_line;
+    // InputArea* p_filter;
+    // InputArea* p_delete_line;
+    QPushButton* p_delete_row;
     QPushButton* p_add_new_row;
 
     QSize* pos;
@@ -48,14 +49,16 @@ public:
 
 public slots:
     void slot_set_tname(QString&);
-    void slot_filter_transmitter(const QString&);
-    void slot_delete_rownum_transmitter(const QString&);
-    void slot_add_new_row();
+    // void slot_filter_transmitter(const QString&);
+    // void slot_delete_rownum_transmitter(const QString&);
+    void slot_add_new_row(void);
+    void slot_delete_selected_row(void);
 
 signals:
-    void sig_filter_data_transmitter(const QString&);
-    void sig_delete_rownum_transmitter(const QString&);
+    // void sig_filter_data_transmitter(const QString&);
+    // void sig_delete_rownum_transmitter(const QString&);
     void sig_add_new_row();
+    void sig_delete_selected_row();
 };
 
 

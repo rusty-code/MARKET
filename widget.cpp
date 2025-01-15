@@ -49,6 +49,23 @@ Widget::Widget
     this->p_reportSwapMenu->show();
 
     // setup top bar
+    int topbar_wdth = this->width()-
+            this->p_tableSwapMenu->size().width() -
+                      this->p_reportSwapMenu->size().width();
+
+    this->p_topBar = new TopBar
+    (
+        new QSize(
+            this->p_tableSwapMenu->size().width(),
+            this->p_tableSwapMenu->pos().y()
+        ),
+        new QSize(
+            topbar_wdth,
+            60
+        ),
+        this
+    );
+    this->p_topBar->show();
 
 }
 

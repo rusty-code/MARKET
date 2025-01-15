@@ -14,7 +14,7 @@ SOURCES += \
     widget.cpp \
     menu_bar/CustomButton.cpp\
     menu_bar/MenuBar.h\
-    menu_bar/TopBar.h
+    menu_bar/TopBar.cpp
 
 HEADERS += \
     reports/ReportQuery.h \
