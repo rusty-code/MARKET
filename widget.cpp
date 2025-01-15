@@ -92,8 +92,7 @@ Widget::Widget
 Widget::~Widget()
 {
     delete this->p_btn_tablename_links;
-    delete this->p_report1;
-    delete this->p_report2;
+    delete this->p_btn_report_links;
 }
 
 void Widget::slot_table_swapper(EMITS_BTN_SIGNALS _sig)
@@ -101,6 +100,7 @@ void Widget::slot_table_swapper(EMITS_BTN_SIGNALS _sig)
     QSqlTableModel* model = new QSqlTableModel;
     QString table_name =
         this->p_btn_tablename_links->lowerBound(_sig).value();
+
     model->setTable
     (
         table_name
@@ -115,5 +115,14 @@ void Widget::slot_table_swapper(EMITS_BTN_SIGNALS _sig)
 void Widget::slot_show_report(EMITS_BTN_SIGNALS _sig)
 {
     QSqlQueryModel* query_model = new QSqlQueryModel;
-    // query_model->setQuery(this->)
+    QString report_name =
+        this->p_btn_report_links->lowerBound(_sig).value();
+    query_model->setQuery
+    (
+        report_name
+    );
+
+    this->p_current_model->setModel(query_model);
+
+    emit this->sig_showed_report(report_name);
 }
