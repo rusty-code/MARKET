@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     // connect to db here
     // ------------------
 
+
     // create map links sig <-> table name here
     // ------------------
 

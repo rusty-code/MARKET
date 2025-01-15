@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/ico">
+        <file>customers.png</file>
+        <file>orders.png</file>
+        <file>products.png</file>
+        <file>reports.png</file>
+    </qresource>
+</RCC>

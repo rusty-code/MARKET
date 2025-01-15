@@ -25,6 +25,7 @@ HEADERS += \
     includes.h
 
 RESOURCES += \
+    Resources/icons.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
