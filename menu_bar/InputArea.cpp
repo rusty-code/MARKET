@@ -16,7 +16,6 @@ InputArea::InputArea(QString _area_txt)
 
 InputArea::~InputArea()
 {}
-
 QLineEdit* InputArea::get_edit_area()
 {
     return this->p_ledit;

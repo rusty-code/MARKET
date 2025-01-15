@@ -55,6 +55,11 @@ PushData::PushData
     );
 }
 
+PushData::~PushData()
+{
+    delete this->p_input_areas;
+}
+
 QList<QString>* PushData::get_area_data()
 {
     // transmission

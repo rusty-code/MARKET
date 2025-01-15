@@ -9,7 +9,8 @@ Widget::Widget
 )
 :   QWidget(parent),
     p_btn_tablename_links(_p_btn_tablename_links),
-    p_btn_report_links(_p_btn_report_links)
+    p_btn_report_links(_p_btn_report_links),
+    current_table_name(" ")
 {
     // setup this
     this->setAutoFillBackground(true);
@@ -49,8 +50,8 @@ Widget::Widget
         this
     );
     {
-        this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG3, ":/ico/reports.png"); // call report1
-        this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG4, ":/ico/reports.png"); // call report2
+        this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG0, ":/ico/reports.png"); // call report1
+        this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG1, ":/ico/reports.png"); // call report2
     }
     this->p_reportSwapMenu->show();
 
@@ -79,14 +80,17 @@ Widget::Widget
     this->p_topBar->show();
 
     // setup table view area
-    this->p_current_model = new QTableView;
+    this->p_current_model = new QTableView(this);
+    this->p_current_model->setAutoFillBackground(true);
+    this->setPalette(*(this->p_backColor));
     this->p_current_model->setGeometry
     (
         menu_wdth,
-        menu_pos_y,
+        topbar_hght+20,
         topbar_wdth,
-        this->height()
+        this->height()-topbar_hght-20
     );
+    this->p_current_model->show();
 
     connect // table swap
     (
@@ -96,13 +100,27 @@ Widget::Widget
         &Widget::slot_table_swapper
     );
 
-    connect // table swap
+    connect // report swap
     (
         this->p_reportSwapMenu,
         &MenuBar::sig_transmission,
         this,
         &Widget::slot_show_report
     );
+
+    connect( // set table name
+        this,
+        &Widget::sig_showed_table,
+        this->p_topBar,
+        &TopBar::slot_set_tname
+        );
+
+    connect(
+        this,
+        &Widget::sig_showed_report,
+        this->p_topBar,
+        &TopBar::slot_set_tname
+        );
 }
 
 Widget::~Widget()
@@ -114,18 +132,18 @@ Widget::~Widget()
 void Widget::slot_table_swapper(EMITS_BTN_SIGNALS _sig)
 {
     QSqlTableModel* model = new QSqlTableModel;
-    QString table_name =
+    this->current_table_name =
         this->p_btn_tablename_links->lowerBound(_sig).value();
 
     model->setTable
     (
-        table_name
+        this->current_table_name
     );
     model->select(); // load data
 
     this->p_current_model->setModel(model);
-
-    emit this->sig_showed_table(table_name);
+    this->update();
+    emit this->sig_showed_table(this->current_table_name);
 }
 
 void Widget::slot_show_report(EMITS_BTN_SIGNALS _sig)
@@ -133,19 +151,117 @@ void Widget::slot_show_report(EMITS_BTN_SIGNALS _sig)
     QSqlQueryModel* query_model = new QSqlQueryModel;
     QString report_name =
         this->p_btn_report_links->lowerBound(_sig).value();
+
+
+    qDebug() << report_name;
     query_model->setQuery
     (
         report_name
     );
 
-    this->p_current_model->setModel(query_model);
+    if(query_model->lastError().isValid())
+    {
+        qDebug() << "query exec error";
+    }
 
-    emit this->sig_showed_report(report_name);
+    this->p_current_model->setModel(query_model);
+    this->current_table_name = "Report";
+
+    emit this->sig_showed_report(this->current_table_name);
 }
 
 void Widget::slot_add_filed(void)
 {
+    if(this->current_table_name == " ")
+        return;
 
+    QList<QString>* p_lst = new QList<QString>;
+    if(this->current_table_name == "customers")
+    {
+        p_lst->append("Email");
+        p_lst->append("Name");
+        p_lst->append("Second name");
+    }
+    else if(this->current_table_name == "products")
+    {
+        p_lst->append("Product name");
+        p_lst->append("Price");
+    }
+    else if(this->current_table_name == "orders")
+    {
+        p_lst->append("OrderId");
+        p_lst->append("Date");
+        p_lst->append("Email");
+        // ====
+        p_lst->append("SummaryCount");
+        p_lst->append("ProductId");
+    }
+    PushData* p_input_wnd = new PushData(p_lst, this->p_backColor);
+
+    connect
+    (
+        p_input_wnd,
+        &PushData::sig_approved_data,
+        this,
+        &Widget::slot_add_field_approved
+        );
+    connect
+    (
+        p_input_wnd,
+        &PushData::sig_cancel,
+        this,
+        &Widget::slot_add_field_approved
+        );
+    p_input_wnd->show();
+}
+
+void Widget::slot_add_field_approved(QList<QString>* _data)
+{
+    if(_data == nullptr)
+        return;
+
+    QSqlTableModel model;
+
+    if(this->current_table_name == "customers")
+    {
+        model.setTable("customers");
+
+        model.insertRows(0, 1);
+        model.setData(model.index(0, 0), _data->at(0));
+        model.setData(model.index(0, 1), _data->at(1));
+        model.setData(model.index(0, 2), _data->at(2));
+    }
+    else if(this->current_table_name == "products")
+    {
+        model.setTable("products");
+
+        model.insertRows(0, 1);
+        model.setData(model.index(0, 0), _data->at(0));
+        model.setData(model.index(0, 1), _data->at(1));
+    }
+    else if(this->current_table_name == "orders")
+    {
+        model.setTable("orders");
+
+        model.insertRows(0, 1);
+        model.setData(model.index(0, 0), _data->at(0));
+        model.setData(model.index(0, 1), _data->at(1));
+        model.setData(model.index(0, 2), _data->at(2));
+
+        QSqlTableModel submodel;
+        submodel.setTable("order_details");
+
+        submodel.setData(submodel.index(0, 0), _data->at(0)); // may be not wor
+        submodel.setData(submodel.index(0, 1), _data->at(3));
+        submodel.setData(submodel.index(0, 4), _data->at(4));
+
+        if(!submodel.submitAll())
+            qDebug() << "Order_details submit error";
+    }
+    if(!model.submitAll())
+        qDebug() << model.tableName() << " submit error";
+
+    this->p_current_model->update();
 }
 
 void Widget::slot_delete_field(void)
