@@ -14,8 +14,9 @@ class Widget : public QWidget
 private:
     QTableView* p_current_model;
     QMap<EMITS_BTN_SIGNALS, QString>* p_btn_tablename_links;
-    ReportQuery* p_report1;
-    ReportQuery* p_report2;
+    QMap<EMITS_BTN_SIGNALS, QString>* p_btn_report_links;
+    // ReportQuery* p_report1;
+    // ReportQuery* p_report2;
 
     MenuBar* p_tableSwapMenu; // left menu
     MenuBar* p_reportSwapMenu; // right menu
@@ -28,8 +29,7 @@ public:
     (
         // QString,
         QMap<EMITS_BTN_SIGNALS, QString>*,
-        QString&, // query for report1
-        QString&, // query for report2
+        QMap<EMITS_BTN_SIGNALS, QString>*,
         QWidget *parent = nullptr
     );
     ~Widget();
@@ -49,7 +49,7 @@ public slots:
     void slot_show_report(EMITS_BTN_SIGNALS);
 
 signals:
-    void sig_showed_table(QString& /*table name*/);
-    void sig_showed_report(QString& /*table name*/);
+    void sig_showed_table(QString /*table name*/);
+    void sig_showed_report(QString /*table name*/);
 };
 #endif // WIDGET_H

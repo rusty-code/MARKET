@@ -34,9 +34,9 @@ Widget::Widget
         this
     );
     {
-        this->p_tableSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG0, ""); // customers
-        this->p_tableSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG1, ""); // products
-        this->p_tableSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG2, ""); // oreders
+        this->p_tableSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG0, ":/ico/customers.png"); // customers
+        this->p_tableSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG1, ":/ico/orders.png"); // products
+        this->p_tableSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG2, ":/ico/products.png"); // oreders
     }
     this->p_tableSwapMenu->show();
 
@@ -49,8 +49,8 @@ Widget::Widget
         this
     );
     {
-        this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG3, ""); // call report1
-        this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG4, ""); // call report2
+        this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG3, ":/ico/reports.png"); // call report1
+        this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG4, ":/ico/reports.png"); // call report2
     }
     this->p_reportSwapMenu->show();
 
@@ -94,4 +94,26 @@ Widget::~Widget()
     delete this->p_btn_tablename_links;
     delete this->p_report1;
     delete this->p_report2;
+}
+
+void Widget::slot_table_swapper(EMITS_BTN_SIGNALS _sig)
+{
+    QSqlTableModel* model = new QSqlTableModel;
+    QString table_name =
+        this->p_btn_tablename_links->lowerBound(_sig).value();
+    model->setTable
+    (
+        table_name
+    );
+    model->select(); // load data
+
+    this->p_current_model->setModel(model);
+
+    emit this->sig_showed_table(table_name);
+}
+
+void Widget::slot_show_report(EMITS_BTN_SIGNALS _sig)
+{
+    QSqlQueryModel* query_model = new QSqlQueryModel;
+    // query_model->setQuery(this->)
 }

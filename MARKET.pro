@@ -13,7 +13,7 @@ SOURCES += \
     reports/ReportQuery.cpp \
     widget.cpp \
     menu_bar/CustomButton.cpp\
-    menu_bar/MenuBar.h\
+    menu_bar/MenuBar.cpp\
     menu_bar/TopBar.cpp
 
 HEADERS += \
