@@ -28,8 +28,8 @@ public:
     Widget
     (
         // QString,
-        QMap<EMITS_BTN_SIGNALS, QString>*,
-        QMap<EMITS_BTN_SIGNALS, QString>*,
+        QMap<EMITS_BTN_SIGNALS, QString>*, // btn<->tables
+        QMap<EMITS_BTN_SIGNALS, QString>*, // btn<->reports
         QWidget *parent = nullptr
     );
     ~Widget();

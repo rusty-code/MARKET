@@ -4,12 +4,12 @@ Widget::Widget
 (
     // QString _db_source,
     QMap<EMITS_BTN_SIGNALS, QString>* _p_btn_tablename_links,
-    QString& _report_query1, // query for report1
-    QString& _report_query2, // query for report2
+    QMap<EMITS_BTN_SIGNALS, QString>* _p_btn_report_links,
     QWidget *parent
 )
 :   QWidget(parent),
-    p_btn_tablename_links{_p_btn_tablename_links}
+    p_btn_tablename_links(_p_btn_tablename_links),
+    p_btn_report_links(_p_btn_report_links)
 {
     // setup this
     this->setAutoFillBackground(true);
@@ -125,4 +125,14 @@ void Widget::slot_show_report(EMITS_BTN_SIGNALS _sig)
     this->p_current_model->setModel(query_model);
 
     emit this->sig_showed_report(report_name);
+}
+
+void Widget::slot_add_filed(void)
+{
+
+}
+
+void Widget::slot_delete_field(void)
+{
+
 }
