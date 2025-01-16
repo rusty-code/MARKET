@@ -45,7 +45,8 @@ Widget::Widget
     this->p_reportSwapMenu = new MenuBar
     (
         new QSize(menu_wdth, menu_hght),
-        new QSize(this->width()-menu_pos_x, menu_pos_y),
+        // new QSize(this->width()-menu_pos_x, menu_pos_y),
+        new QSize(this->width()-menu_wdth, menu_pos_y),
         true,
         this
     );
@@ -113,6 +114,13 @@ Widget::Widget
         &TopBar::sig_add_new_row,
         this,
         &Widget::slot_add_filed
+        );
+
+    connect(
+        this->p_topBar,
+        &TopBar::sig_delete_selected_row,
+        this,
+        &Widget::slot_delete_field
         );
 
     connect( // set table name
@@ -282,5 +290,29 @@ void Widget::slot_add_field_approved
 
 void Widget::slot_delete_field(void)
 {
+    // QSqlTableModel* tmp_model = new QSqlTableModel;
+    // tmp_model->setTable(this->current_table_name);
 
+    // QItemSelectionModel* mdl = new QItemSelectionModel;
+    // mdl->setModel(this->p_current_model->se);
+
+    // QModelIndexList indexes = mdl->selectedIndexes();
+    QModelIndexList indexes = this->p_current_model->selectionModel()->selectedIndexes();
+    for
+    (
+        auto row_ind = indexes.begin();
+        row_ind != indexes.end();
+        ++row_ind
+    )
+    {
+        this->p_current_model->model()->removeRow(row_ind->row());
+        // tmp_model->revertRow(row_ind->row());
+
+    }
+    // if(!this->p_current_model->model()->submit())
+    // {
+    //     qDebug() << "error remove rows";
+    // }
+    // this->p_current_model->setModel(tmp_model);
+    this->p_current_model->update();
 }
