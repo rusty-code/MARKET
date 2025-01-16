@@ -82,8 +82,7 @@ Widget::Widget
 
     // setup table view area
     this->p_current_model = new QTableView(this);
-    this->p_current_model->setAutoFillBackground(true);
-    this->setPalette(*(this->p_backColor));
+    this->setPalette(QPalette(Qt::white));
     this->p_current_model->setGeometry
     (
         menu_wdth,
