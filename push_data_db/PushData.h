@@ -25,8 +25,8 @@ public slots:
     void slot_cancel_btn();
 
 signals:
-    void sig_approved_data(QList<QString>*);
-    void sig_cancel(QList<QString>*);
+    void sig_approved_data(QList<QString>*, PushData*);
+    void sig_cancel(QList<QString>*, PushData*);
 };
 
 #endif // PUSHDATA_H

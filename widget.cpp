@@ -223,10 +223,17 @@ void Widget::slot_add_filed(void)
     // p_input_wnd->close();
 }
 
-void Widget::slot_add_field_approved(QList<QString>* _data)
+void Widget::slot_add_field_approved
+(
+    QList<QString>* _data,
+    PushData* _inpt_wnd
+)
 {
     if(_data == nullptr)
+    {
+        _inpt_wnd->close();
         return;
+    }
 
     QSqlTableModel model;
 
@@ -269,6 +276,7 @@ void Widget::slot_add_field_approved(QList<QString>* _data)
     if(!model.submitAll())
         qDebug() << model.tableName() << " submit error";
 
+    _inpt_wnd->close();
     this->p_current_model->update();
 }
 

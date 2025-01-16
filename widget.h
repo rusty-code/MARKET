@@ -44,7 +44,7 @@ public slots:
     /*
      *
     */
-    void slot_add_field_approved(QList<QString>*);
+    void slot_add_field_approved(QList<QString>*, PushData*);
 
 
     /*

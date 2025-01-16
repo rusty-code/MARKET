@@ -90,10 +90,10 @@ QList<QString>* PushData::get_area_data()
 
 void PushData::slot_approved_btn()
 {
-    emit this->sig_approved_data(this->get_area_data());
+    emit this->sig_approved_data(this->get_area_data(), this);
 }
 
 void PushData::slot_cancel_btn()
 {
-    emit this->sig_cancel(nullptr);
+    emit this->sig_cancel(nullptr, this);
 }
