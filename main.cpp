@@ -51,6 +51,17 @@ int main(int argc, char *argv[])
                   "ON o.ClientEmail = c.Email JOIN products p "
                   "ON od.ProductId = p.Id WHERE p.ProductName = 'Milk';";
         p_links_btn_reports->insert(EMITS_BTN_SIGNALS::SIG1, report1);
+
+        report1 = "SELECT o.Id, o.ClientEmail, o.OrderDate "
+                  "FROM orders o "
+                  "WHERE o.OrderDate = '01-01-2025';";
+        p_links_btn_reports->insert(EMITS_BTN_SIGNALS::SIG2, report1);
+
+        report1 = "SELECT SUM(p.Price * od.SummaryCount) AS TotalCost "
+                  "FROM order_details od "
+                  "JOIN products p ON od.ProductId = p.Id "
+                  "WHERE od.OrderId = 1;";
+        p_links_btn_reports->insert(EMITS_BTN_SIGNALS::SIG3, report1);
     }
     // ------------------
 

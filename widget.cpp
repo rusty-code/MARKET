@@ -23,7 +23,7 @@ Widget::Widget
     // setup menues
         // setup left menu
     int menu_wdth = 80;
-    int menu_hght = 250;
+    int menu_hght = 350;
     int menu_pos_x = 10;
     int menu_pos_y = 20;
 
@@ -45,7 +45,6 @@ Widget::Widget
     this->p_reportSwapMenu = new MenuBar
     (
         new QSize(menu_wdth, menu_hght),
-        // new QSize(this->width()-menu_pos_x, menu_pos_y),
         new QSize(this->width()-menu_wdth, menu_pos_y),
         true,
         this
@@ -53,6 +52,8 @@ Widget::Widget
     {
         this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG0, ":/ico/reports.png"); // call report1
         this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG1, ":/ico/reports.png"); // call report2
+        this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG2, ":/ico/reports.png"); // call report2
+        this->p_reportSwapMenu->appendObject(EMITS_BTN_SIGNALS::SIG3, ":/ico/reports.png"); // call report2
     }
     this->p_reportSwapMenu->show();
 
@@ -62,7 +63,7 @@ Widget::Widget
                 this->p_tableSwapMenu->size().width() -
                           this->p_reportSwapMenu->size().width();
         */
-    int topbar_wdth = this->width()-2*menu_wdth;
+    int topbar_wdth = this->width()-2*menu_wdth-50;
     int topbar_hght = 60;
     this->p_topBar = new TopBar
     (
@@ -85,7 +86,7 @@ Widget::Widget
     this->setPalette(QPalette(Qt::white));
     this->p_current_model->setGeometry
     (
-        menu_wdth,
+        menu_wdth+20,
         topbar_hght+20,
         topbar_wdth,
         this->height()-topbar_hght-20
@@ -198,6 +199,7 @@ void Widget::slot_add_filed(void)
     }
     else if(this->current_table_name == "products")
     {
+        p_lst->append("ProductId"); // added
         p_lst->append("Product name");
         p_lst->append("Price");
     }
@@ -260,6 +262,7 @@ void Widget::slot_add_field_approved
         model.insertRows(0, 1);
         model.setData(model.index(0, 0), _data->at(0));
         model.setData(model.index(0, 1), _data->at(1));
+        model.setData(model.index(0, 2), _data->at(2));
     }
     else if(this->current_table_name == "orders")
     {
