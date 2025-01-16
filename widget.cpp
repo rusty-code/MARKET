@@ -187,7 +187,7 @@ void Widget::slot_show_report(EMITS_BTN_SIGNALS _sig)
 
 void Widget::slot_add_filed(void)
 {
-    if(this->current_table_name == " ")
+    if(this->current_table_name == " " or this->current_table_name == "Report")
         return;
 
     QList<QString>* p_lst = new QList<QString>;
@@ -229,7 +229,6 @@ void Widget::slot_add_filed(void)
         &Widget::slot_add_field_approved
         );
     p_input_wnd->show();
-    // p_input_wnd->close();
 }
 
 void Widget::slot_add_field_approved
@@ -292,13 +291,6 @@ void Widget::slot_add_field_approved
 
 void Widget::slot_delete_field(void)
 {
-    // QSqlTableModel* tmp_model = new QSqlTableModel;
-    // tmp_model->setTable(this->current_table_name);
-
-    // QItemSelectionModel* mdl = new QItemSelectionModel;
-    // mdl->setModel(this->p_current_model->se);
-
-    // QModelIndexList indexes = mdl->selectedIndexes();
     QModelIndexList indexes = this->p_current_model->selectionModel()->selectedIndexes();
     for
     (
@@ -308,13 +300,6 @@ void Widget::slot_delete_field(void)
     )
     {
         this->p_current_model->model()->removeRow(row_ind->row());
-        // tmp_model->revertRow(row_ind->row());
-
     }
-    // if(!this->p_current_model->model()->submit())
-    // {
-    //     qDebug() << "error remove rows";
-    // }
-    // this->p_current_model->setModel(tmp_model);
     this->p_current_model->update();
 }
