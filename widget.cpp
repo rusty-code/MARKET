@@ -108,6 +108,13 @@ Widget::Widget
         &Widget::slot_show_report
     );
 
+    connect( // add filed button
+        this->p_topBar,
+        &TopBar::sig_add_new_row,
+        this,
+        &Widget::slot_add_filed
+        );
+
     connect( // set table name
         this,
         &Widget::sig_showed_table,
@@ -115,7 +122,7 @@ Widget::Widget
         &TopBar::slot_set_tname
         );
 
-    connect(
+    connect( // set report name
         this,
         &Widget::sig_showed_report,
         this->p_topBar,
@@ -213,6 +220,7 @@ void Widget::slot_add_filed(void)
         &Widget::slot_add_field_approved
         );
     p_input_wnd->show();
+    // p_input_wnd->close();
 }
 
 void Widget::slot_add_field_approved(QList<QString>* _data)

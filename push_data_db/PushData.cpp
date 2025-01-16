@@ -10,13 +10,19 @@ PushData::PushData
     this->setAutoFillBackground(true);
     this->setPalette(*(_p_palette));
 
-    this->resize(100*_p_area_content->size(), 60);
+    // this->resize(100*_p_area_content->size(), 60);
+    this->setGeometry(
+        0,
+        0,
+        100*_p_area_content->size(),
+        60
+        );
 
     // setup widget layout
     this->p_layout = new QHBoxLayout;
-    this->setLayout(this->p_layout);
 
     // setup input area
+    this->p_input_areas = new QList<InputArea*>;
     for
     (
         auto iter = _p_area_content->begin();
@@ -25,9 +31,11 @@ PushData::PushData
     )
     {
         InputArea* p_inpt = new InputArea(*iter);
+        qDebug() << *iter;
 
         this->p_input_areas->append(p_inpt);
         this->p_layout->addWidget(p_inpt);
+        this->p_layout->addWidget(p_inpt->get_edit_area());
     }
 
     // setup buttons
@@ -36,6 +44,8 @@ PushData::PushData
 
     this->p_layout->addWidget(this->p_approve_data_btn);
     this->p_layout->addWidget(this->p_cancel_btn);
+
+    this->setLayout(this->p_layout);
 
     // setup connects
     connect // approve data

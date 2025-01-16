@@ -63,5 +63,6 @@ int main(int argc, char *argv[])
     qDebug() << "main show";
     mainwnd.show();
 
+
     return app_master.exec();
 }

@@ -15,7 +15,7 @@ private:
     QPushButton* p_cancel_btn;
 
 public:
-    PushData(QVector<QString>*, QPalette*);
+    explicit PushData(QList<QString>*, QPalette*);
     ~PushData();
 
     QList<QString>* get_area_data();
